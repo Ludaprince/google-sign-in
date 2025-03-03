@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Sign-In</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h1>Welcome</h1>
+      <p>Sign in with Google to continue</p>
+      <button id="googleSignInBtn" class="google-btn">
+        <img src="https://th.bing.com/th/id/OIP.dUAckhxnwPOwQ5nvO1RpKQHaHa?pid=ImgDet&w=184&h=184&c=7&dpr=1.3" 
+             alt="Google Logo">
+        Sign in with Google
+      </button>
+    </div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js"></script>
+  
+  <!-- Google Sign-In Script -->
+  <script type="module" src="googleSignIn.js"></script>
+</body>
+</html>
