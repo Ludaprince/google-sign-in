@@ -1,15 +1,19 @@
-// Import the necessary Firebase functions
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js';
-import { getAuth, GoogleAuthProvider, signInWithPopup } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js';
+// Load environment variables
+import dotenv from "dotenv";
+dotenv.config();
 
-// Your Firebase configuration
+// Import Firebase functions
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
+
+// Firebase configuration from environment variables
 const firebaseConfig = {
-  apiKey: "AIzaSyAVaHggK9BekkWiK4JlKOIXeHYcxtg_KuI",
-  authDomain: "event-management-f4ea3.firebaseapp.com",
-  projectId: "event-management-f4ea3",
-  storageBucket: "event-management-f4ea3.firebasestorage.app",
-  messagingSenderId: "8810104526",
-  appId: "1:8810104526:web:4059e923527fc483eef29f",
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.FIREBASE_APP_ID,
 };
 
 // Initialize Firebase
@@ -44,30 +48,28 @@ const signInWithGoogle = async () => {
 // Function to send ID Token to backend
 const sendToBackend = async (idToken) => {
   try {
-      const response = await fetch("http://172.20.10.6:4000/api/users/google-login", {
-          method: "POST",
-          headers: {
-              "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ idToken }),
-      });
+    const response = await fetch("https://event-app-api-2w34.onrender.com/api/users/google-login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ idToken }),
+    });
 
-      const data = await response.json(); // Parse JSON response
-      console.log("Backend Response:", data);
+    const data = await response.json(); // Parse JSON response
+    console.log("Backend Response:", data);
 
-      if (!response.ok) {
-          throw new Error(data.message || "Backend authentication failed!");
-      }
+    if (!response.ok) {
+      throw new Error(data.message || "Backend authentication failed!");
+    }
 
-      alert("Login Successful!"); // Show success message
-      localStorage.setItem("token", data.token); // Store token for future use
-
+    alert("Login Successful!"); // Show success message
+    localStorage.setItem("token", data.token); // Store token for future use
   } catch (error) {
-      console.error("Error:", error);
-      alert(error.message);
+    console.error("Error:", error);
+    alert(error.message);
   }
 };
-
 
 // Set up event listener for the button
 document.getElementById("googleSignInBtn").addEventListener("click", signInWithGoogle);
